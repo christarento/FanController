@@ -1,0 +1,19 @@
+﻿x5 resistance 10k
+x5 resistance 8.2k
+x5 resistance 200
+plaque CI
+[POTAIPC1610KR] x1 PIHER PC16 POTENTIOMETRE LIN 10KR +INTER
+coffret plastique
+
+
+[CDMIL100NF] x4 condensateur milfeuil 100nf 63v
+[CDMIL330NF] x4 condensateur milfeuil 330nf 63v
+[CDR8516V10MF2] x4 condensateur chimique 10uf 16v ou 25v 2.54mm ou 5.08mm
+
+[CI78L05] x2 regulateur tension 5v 78L05 package TO92
+
+[COE160] x2 support CI double lyre 8 broches
+[HABT1765N] x1 bouton plastique pour axe 6mm
+[COKK254M-4] x2 EMBASES MÂLES DROITES 4 CONTACTS
+
+[DVAR-A000057] arduino leonardo
