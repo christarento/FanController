@@ -20,10 +20,10 @@
 #define TRUE 1
 #define FALSE 0
 #define STARTUP_PWM 200
-#define STARTUP_TIME (F_PWM * 1)
+#define STARTUP_TIME (F_PWM * 2)
 #define STALL_THRESHOLD_TIME (F_PWM * 2)
 #define STALL_RETRY_TIME (F_PWM * 10)
-#define MIN_PWM_DUTY 20
+#define MIN_PWM_DUTY 30
 
 //------------ FUSES
 //- high byte -> 0xff
@@ -112,7 +112,7 @@ inline void init(void)
 	
 	//== TIMER / PWM configuration
 	// fast PWM, prescaler 1, Fpwm = F_CPU / (prescaler*256) -> 18750Hz
-	TCCR0A = (1<<COM0A1) | (1<<WGM01) | (1<<WGM00);//clear OC0A on Compare Match and set OC0A at TOP, Fast PWM with TOP=0xff
+	TCCR0A = (1<<WGM01) | (1<<WGM00);//set OC0A at TOP, Fast PWM with TOP=0xff
 	TCCR0B = (1<<CS00);//no prescaler (1)
 	TCNT0 = 0;//Timer/Counter register to 0
 	TIMSK0 = (1<<TOIE0);//Timer/Counter0 Overflow Interrupt Enable
@@ -142,7 +142,19 @@ uint8_t potzRead(void)
 
 inline void setPower(uint8_t a_duty_cycle)
 {
-	OCR0A = a_duty_cycle;
+	if (a_duty_cycle == 0)
+	{
+		// PWM generator cannot give pure 0% duty cycle -> 1 clock cycle narrow spike 
+		// we disconnect PWM generator and set output to 0 by hand
+		TCCR0A &= ~(1<<COM0A1);
+		PORTB &= ~(1<<CTRL_PIN);
+	}
+	else
+	{
+		// set PWM generator duty cycle
+		OCR0A = a_duty_cycle;
+		TCCR0A |= (1<<COM0A1);//clear OC0A on Compare Match
+	}
 }
 
 /*! \brief Startup Pulse
@@ -158,7 +170,9 @@ void startFan(uint8_t a_duty)
 	
 	ATOMIC_BLOCK(ATOMIC_FORCEON)
 	{
+		g_fan.stall = FALSE;
 		g_fan.starting = TRUE;
+		g_stall_time = 0;
 		g_time_counter = 0;
 	}
 	setPower(a_duty);
@@ -182,7 +196,7 @@ int main(void)
 			duty = MIN_PWM_DUTY;
 		}
 		
-		// do not update coil_duty when starting
+		// do not update power when starting
 		if (g_fan.starting == FALSE)
 		{
 			setPower(duty);
@@ -209,13 +223,7 @@ int main(void)
 				}
 			}
 			while (time_counter <= STALL_RETRY_TIME);
-
-			ATOMIC_BLOCK(ATOMIC_FORCEON)
-			{
-				g_stall_time = 0;
-				g_fan.stall = FALSE;
-			}
-			
+	
 			// start up the fan again
 			startFan(duty);
 		}
