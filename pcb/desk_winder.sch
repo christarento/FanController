@@ -15290,7 +15290,7 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 </classes>
 <parts>
 <part name="IC1" library="atmel" deviceset="TINY13" device="PU" technology="-20"/>
-<part name="R2" library="resistor" deviceset="R-EU_" device="0207/12" value="8.2k"/>
+<part name="R2" library="resistor" deviceset="R-EU_" device="0207/12" value="10k"/>
 <part name="R4" library="resistor" deviceset="R-EU_" device="0207/12" value="10k"/>
 <part name="R7" library="resistor" deviceset="R-EU_" device="0207/12" value="200"/>
 <part name="R9" library="resistor" deviceset="R-EU_" device="0207/12" value="10k"/>
@@ -15455,7 +15455,7 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="71.12" y1="86.36" x2="71.12" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="CTRL" class="0">
+<net name="PWM" class="0">
 <segment>
 <pinref part="IC1" gate="G$1" pin="PB0/PCINT0/AIN0/OC0A/MOSI"/>
 <wire x1="12.7" y1="38.1" x2="-2.54" y2="38.1" width="0.1524" layer="91"/>
@@ -15469,11 +15469,6 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 </net>
 <net name="TACH_IN" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="PB1/PCINT1/AIN1/OC0B/INT0/MISO"/>
-<wire x1="12.7" y1="35.56" x2="-2.54" y2="35.56" width="0.1524" layer="91"/>
-<label x="0" y="35.56" size="1.778" layer="95"/>
-</segment>
-<segment>
 <pinref part="R2" gate="G$1" pin="2"/>
 <wire x1="-86.36" y1="7.62" x2="-86.36" y2="12.7" width="0.1524" layer="91"/>
 <pinref part="R4" gate="G$1" pin="1"/>
@@ -15481,6 +15476,11 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <wire x1="-86.36" y1="12.7" x2="-106.68" y2="12.7" width="0.1524" layer="91"/>
 <label x="-101.6" y="12.7" size="1.778" layer="95"/>
 <junction x="-86.36" y="12.7"/>
+</segment>
+<segment>
+<pinref part="IC1" gate="G$1" pin="PB1/PCINT1/AIN1/OC0B/INT0/MISO"/>
+<wire x1="12.7" y1="35.56" x2="-2.54" y2="35.56" width="0.1524" layer="91"/>
+<label x="0" y="35.56" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SENSE" class="0">
