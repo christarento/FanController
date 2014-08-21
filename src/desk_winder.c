@@ -21,9 +21,9 @@
 #define FALSE 0
 #define STARTUP_PWM 200
 #define STARTUP_TIME (F_PWM * 2)
-#define STALL_THRESHOLD_TIME (F_PWM * 2)
-#define STALL_RETRY_TIME (F_PWM * 10)
-#define MIN_PWM_DUTY 50
+#define STALL_THRESHOLD_TIME (F_PWM / 2)
+#define STALL_RETRY_TIME (F_PWM * 2)
+#define MIN_PWM_DUTY 40
 
 //------------ FUSES
 //- high byte -> 0xff
