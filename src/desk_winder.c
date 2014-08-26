@@ -10,7 +10,6 @@
 
 #include <limits.h>
 
-#include <avr/cpufunc.h>
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <util/atomic.h>
@@ -33,7 +32,7 @@
 //SUT[1:0] 10 : Start-up times -> Slowly rising time
 //CKSEL[1:0] 01 Internal RC Oscillator -> 4.8 MHz
 
-//------------ INPUTS
+//------------ I/O
 //PB0 (OC0A) PWM control @21-28KHz output
 //PB1 (INT0) tach input two pulses by revolution
 //PB4 (ADC2) potz input
@@ -178,6 +177,8 @@ void startFan(uint8_t a_duty)
 	setPower(a_duty);
 }
 
+/*! \brief main
+ */
 int main(void)
 {
 	//! temporary duty value
